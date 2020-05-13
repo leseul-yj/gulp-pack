@@ -3,7 +3,8 @@ const {
     dest,
     watch,
     series,
-    parallel
+    parallel,
+    task
 } = require('gulp');
 const babel = require('gulp-babel');
 
@@ -31,6 +32,17 @@ const watchs = () => {
         }
     })
 }
-exports.watchs = watchs;
 
-exports.serve = series(parallel(js,css,images),html,watchs)
+
+const server = series(parallel(js,css,images),html,watchs);
+
+const webserver = require("gulp-webserver");
+
+const webserver = ()=>{
+    src("/web").pipe(webserver({
+        open: true,
+        port: 9999
+    }))
+}
+
+task("default",["watchs","server"])
