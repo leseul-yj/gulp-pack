@@ -10,16 +10,22 @@ const {
 } = require('gulp');
 const babel = require('gulp-babel');
 
-const js = () => src(['web/**/*.js']).pipe(babel({'presets': ['env']})).pipe(dest(['dest/']));
+const js = () => src(['web/**/*.js']).pipe(babel()).pipe(dest(['dest/']));
 // 导出后可以用 gulp js启动任务
 //exports.js = js;
 
 const css = () => src(['web/css/*.css']).pipe(dest('dest/css'));
 
-const images = () => src('web/img/*.+(png| jpg | jpeg | gif | svg)', 'web/img/*/*.+(png| jpg | jpeg | gif | svg)').pipe(dest('dest/img'));
+const images = () => src('web/img/*.+(png| jpg | jpeg | gif | svg)','web/img/*/*.+(png| jpg | jpeg | gif | svg)').pipe(dest('dest/img'));
 
 const html = () => src('web/**/*.html').pipe(dest('dest/'));
 
+
+const del = require('del');
+const clean = async () => {
+    await del(['dest'])
+}
+exports.clean = clean
 // gulp-webserver 是gulp-connect的重写 弥补了gulp-connect不足，例如不能自动打开
 // 功能和browserAsync类似
 // webserver 保存后界面就会刷新
@@ -43,22 +49,22 @@ const html = () => src('web/**/*.html').pipe(dest('dest/'));
 const browserAsync = require("browser-sync").create();
 const watchs = () => {
     browserAsync.init({
-        files:['**'],
+        files: ['**'],
         port: 9999,
         server: {
             baseDir: ['web'],
             index: '/index.html',
         }
     })
-    watch('web/**/*.js', js)
-    watch('web/css/*.css', css)
-    watch('web/*.html', html)
+    watch('web/**/*.js',js)
+    watch('web/css/*.css',css)
+    watch('web/*.html',html)
 }
 exports.watchs = watchs;
 
 
 //const server = series(parallel(js, css, images), html, webserver, watchs);
 // parallel 并发执行， series按顺序执行
-const server = series(parallel(js, css, images), html, watchs);
+const server = series(clean,parallel(js,css,images),html,watchs);
 //gulp 4 设置default任务，第二个参数不能直接用数组了 需要用到series
-task("default", server);
+task("default",server);
