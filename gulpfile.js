@@ -9,8 +9,8 @@ const {
     task
 } = require('gulp');
 const babel = require('gulp-babel');
-
-const js = () => src(['web/**/*.js']).pipe(babel()).pipe(dest(['dest/']));
+const uglify = require('gulp-uglify')
+const js = () => src(['web/**/*.js']).pipe(babel()).pipe(uglify()).pipe(dest(['dest/']));
 // 导出后可以用 gulp js启动任务
 //exports.js = js;
 
@@ -23,39 +23,41 @@ const html = () => src('web/**/*.html').pipe(dest('dest/'));
 
 const del = require('del');
 const clean = async () => {
-    await del(['dest'])
+    await del(['dest']);
 }
-exports.clean = clean
+exports.clean = clean;
+
 // gulp-webserver 是gulp-connect的重写 弥补了gulp-connect不足，例如不能自动打开
 // 功能和browserAsync类似
 // webserver 保存后界面就会刷新
-// const gulpserver = require('gulp-webserver');
-// const webserver = () => {
-//     src("web", {
-//         allowEmpty: true
-//     }).pipe(gulpserver({
-//         open: true,
-//         port: 9999,
-//         livereload: true,
-//         host: '127.0.0.1',
-//         directoryListing: {
-//             enable: true,
-//             path: 'index.html'
-//         }
-//     }))
-// }
+const gulpserver = require('gulp-webserver');
+const webserver = () => {
+    src("web", {
+        allowEmpty: true
+    }).pipe(gulpserver({
+        open: true,
+        port: 9999,
+        livereload: true,
+        host: '127.0.0.1',
+        directoryListing: {
+            enable: true,
+            path: 'index.html'
+        }
+    }))
+}
 
 // 监听插件 如果不配置 会打开默认的3000端口 browser-sync和gulp-webserver类似 使用一个就好了
-const browserAsync = require("browser-sync").create();
+// 感觉用gulp-webserver比browser-sync要快
+// const browserAsync = require("browser-sync").create();
 const watchs = () => {
-    browserAsync.init({
-        files: ['**'],
-        port: 9999,
-        server: {
-            baseDir: ['web'],
-            index: '/index.html',
-        }
-    })
+    // browserAsync.init({
+    //     files: ['**'],
+    //     port: 9999,
+    //     server: {
+    //         baseDir: ['web'],
+    //         index: '/index.html',
+    //     }
+    // })
     watch('web/**/*.js',js)
     watch('web/css/*.css',css)
     watch('web/*.html',html)
@@ -63,8 +65,8 @@ const watchs = () => {
 exports.watchs = watchs;
 
 
-//const server = series(parallel(js, css, images), html, webserver, watchs);
+const server = series(parallel(js, css, images), html, webserver, watchs);
 // parallel 并发执行， series按顺序执行
-const server = series(clean,parallel(js,css,images),html,watchs);
+// const server = series(clean,parallel(js,css,images),html,watchs);
 //gulp 4 设置default任务，第二个参数不能直接用数组了 需要用到series
-task("default",server);
+task("default", server);
