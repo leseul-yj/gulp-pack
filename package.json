@@ -21,6 +21,7 @@
     "del": "^5.1.0",
     "gulp": "^4.0.2",
     "gulp-babel": "^8.0.0",
+    "gulp-uglify": "^3.0.2",
     "gulp-webserver": "^0.9.1"
   },
   "dependencies": {}
