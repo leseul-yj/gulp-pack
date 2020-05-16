@@ -10,15 +10,15 @@ const {
 } = require('gulp');
 const babel = require('gulp-babel');
 const uglify = require('gulp-uglify')
-const js = () => src(['web/**/*.js']).pipe(babel()).pipe(uglify()).pipe(dest(['dest/']));
+const js = () => src(['src/**/*.js']).pipe(babel()).pipe(uglify()).pipe(dest(['dest/']));
 // 导出后可以用 gulp js启动任务
 //exports.js = js;
 
-const css = () => src(['web/css/*.css']).pipe(dest('dest/css'));
+const css = () => src(['src/css/*.css']).pipe(dest('dest/css'));
 
-const images = () => src('web/img/*.+(png| jpg | jpeg | gif | svg)','web/img/*/*.+(png| jpg | jpeg | gif | svg)').pipe(dest('dest/img'));
+const images = () => src('src/img/*.+(png| jpg | jpeg | gif | svg)','src/img/*/*.+(png| jpg | jpeg | gif | svg)').pipe(dest('dest/img'));
 
-const html = () => src('web/**/*.html').pipe(dest('dest/'));
+const html = () => src('src/**/*.html').pipe(dest('dest/'));
 
 
 const del = require('del');
@@ -32,7 +32,7 @@ exports.clean = clean;
 // webserver 保存后界面就会刷新
 const gulpserver = require('gulp-webserver');
 const webserver = () => {
-    src("web", {
+    src("src",{
         allowEmpty: true
     }).pipe(gulpserver({
         open: true,
@@ -58,15 +58,15 @@ const watchs = () => {
     //         index: '/index.html',
     //     }
     // })
-    watch('web/**/*.js',js)
-    watch('web/css/*.css',css)
-    watch('web/*.html',html)
+    watch('src/**/*.js',js)
+    watch('src/css/*.css',css)
+    watch('src/*.html',html)
 }
 exports.watchs = watchs;
 
 
-const server = series(parallel(js, css, images), html, webserver, watchs);
+const server = series(parallel(js,css,images),html,webserver,watchs);
 // parallel 并发执行， series按顺序执行
 // const server = series(clean,parallel(js,css,images),html,watchs);
 //gulp 4 设置default任务，第二个参数不能直接用数组了 需要用到series
-task("default", server);
+task("default",server);
