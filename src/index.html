@@ -14,9 +14,19 @@
 </head>
 
 <body>
+  <div class="wrap">
+    <div class="divTalkStyle">
+      <h2>Alice</h2>
+      <p><input type="text" class="message" /><button class="sendMessage">send</button></p>
+      <div id="alice"></div>
+    </div>
+    <div class="divTalkStyle">
+      <h2>Bob</h2>
+      <p><input type="text" class="message" /><button class="sendMessage">send</button></p>
+      <div id="bob"></div>
+    </div>
+  </div>
 
-  <div class="divTalkStyle" id="alice">Alice的对话</div>
-  <div class="divTalkStyle" id="bob">Bob的对话</div>
   <!-- inject:js -->
   <script src="/libs/util.js"></script>
   <script src="/libs/libsignal-protocol.js"></script>
