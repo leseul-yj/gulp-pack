@@ -29373,8 +29373,8 @@
           bb = new ByteBuffer(k,littleEndian,noAssert);
         while(i < k) {
           charCode = str.charCodeAt(i);
-          // if (!noAssert && charCode > 255)
-          // throw RangeError("Illegal charCode at "+i+": 0 <= "+charCode+" <= 255");
+          if (!noAssert && charCode > 255)
+          throw RangeError("Illegal charCode at "+i+": 0 <= "+charCode+" <= 255");
           bb.view.setUint8(i++,charCode);
         }
         bb.limit = k;
@@ -29541,7 +29541,7 @@
               }
               b = parseInt(ch + str.charAt(i++),16);
               if(!noAssert) {
-                if(isNaN(b) || b < 0 /*|| b > 255*/)
+                if(isNaN(b) || b < 0 || b > 255)
                   throw TypeError("Illegal str: Not a debug encoded string");
               }
               bb.view.setUint8(j++,b);
@@ -29615,7 +29615,7 @@
         for(var i = 0,j = 0; i < k; i += 2) {
           b = parseInt(str.substring(i,i + 2),16);
           if(!noAssert)
-            if(!isFinite(b) || b < 0 /*|| b > 255*/)
+            if(!isFinite(b) || b < 0 || b > 255)
               throw TypeError("Illegal str: Contains non-hex characters");
           bb.view.setUint8(j++,b);
         }

@@ -7,9 +7,7 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>signal</title>
 
-  <!-- inject:css -->
-  <link rel="stylesheet" href="/css/style.css">
-  <!-- endinject -->
+  <link rel="stylesheet" href="./css/style.css">
 
 </head>
 
@@ -17,22 +15,24 @@
   <div class="wrap">
     <div class="divTalkStyle">
       <h2>Alice</h2>
-      <p><input type="text" class="message" /><button class="sendMessage">send</button></p>
-      <div id="alice"></div>
+      <div id="Alice">
+        <p><input type="text" class="message" value="8888sss"/>
+        <button id="AliceMes" class="sendMessage">send</button></p>
+      </div>
     </div>
     <div class="divTalkStyle">
       <h2>Bob</h2>
-      <p><input type="text" class="message" /><button class="sendMessage">send</button></p>
-      <div id="bob"></div>
+      <div id="Bob">
+        <p><input type="text" class="message" value=""/>
+        <button id="BobMes" class="sendMessage">send</button></p>
+      </div>
     </div>
   </div>
-
-  <!-- inject:js -->
-  <script src="/libs/util.js"></script>
-  <script src="/libs/libsignal-protocol.js"></script>
-  <script src="/libs/InMemorySignalProtocolStore.js"></script>
-  <script src="/js/signal.js"></script>
-  <!-- endinject -->
+  <script src="./libs/protobuf.js"></script>
+  <script src="./libs/util.js"></script>
+  <script src="./libs/libsignal-protocol.js"></script>
+  <script src="./libs/InMemorySignalProtocolStore.js"></script>
+  <script src="./js/signal.js"></script>
 
 </body>
 
