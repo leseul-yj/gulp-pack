@@ -1,6 +1,6 @@
-function localStorageSet(key, data) {
-    let value ={};
-    if(key == 'preKey'){
+function localStorageSet(key,data) {
+    let value = {};
+    if(key == 'preKey') {
         const {
             keyId,
             keyPair
@@ -10,13 +10,13 @@ function localStorageSet(key, data) {
             privKey
         } = keyPair;
         value = JSON.stringify({
-            "keyId":keyId,
-            "keyPair":{
+            "keyId": keyId,
+            "keyPair": {
                 "pubKey": arrayBufferToBase64(pubKey),
                 "privKey": arrayBufferToBase64(privKey)
             }
         })
-    }else if(key == 'signedPreKey'){
+    } else if(key == 'signedPreKey') {
         const {
             keyId,
             keyPair,
@@ -27,14 +27,14 @@ function localStorageSet(key, data) {
             privKey
         } = keyPair;
         value = JSON.stringify({
-            "keyId":keyId,
-            "keyPair":{
+            "keyId": keyId,
+            "keyPair": {
                 "pubKey": arrayBufferToBase64(pubKey),
                 "privKey": arrayBufferToBase64(privKey)
             },
-            "signature":arrayBufferToBase64(signature) 
+            "signature": arrayBufferToBase64(signature)
         })
-    }else{
+    } else {
         const {
             pubKey,
             privKey
@@ -50,9 +50,9 @@ function localStorageSet(key, data) {
 
 function localStorageGet(key) {
     let data = localStorage.getItem(key);
-    if(data){
+    if(data) {
         data = JSON.parse(data);
-        if(key == 'preKey'){
+        if(key == 'preKey') {
             const {
                 keyId,
                 keyPair
@@ -62,13 +62,13 @@ function localStorageGet(key) {
                 privKey
             } = keyPair;
             return {
-                "keyId":keyId,
-                "keyPair":{
+                "keyId": keyId,
+                "keyPair": {
                     "pubKey": base64ToArrayBuffer(pubKey),
                     "privKey": base64ToArrayBuffer(privKey)
                 }
             }
-        }else if(key == 'signedPreKey'){
+        } else if(key == 'signedPreKey') {
             const {
                 keyId,
                 keyPair,
@@ -79,14 +79,14 @@ function localStorageGet(key) {
                 privKey
             } = keyPair;
             return {
-                "keyId":keyId,
-                "keyPair":{
+                "keyId": keyId,
+                "keyPair": {
                     "pubKey": base64ToArrayBuffer(pubKey),
                     "privKey": base64ToArrayBuffer(privKey)
                 },
-                "signature":base64ToArrayBuffer(signature) 
+                "signature": base64ToArrayBuffer(signature)
             }
-        }else {
+        } else {
             const {
                 pubKey,
                 privKey
@@ -101,7 +101,7 @@ function localStorageGet(key) {
 }
 
 function base64ToArrayBuffer(string) {
-    return dcodeIO.ByteBuffer.wrap(string, 'base64').toArrayBuffer();
+    return dcodeIO.ByteBuffer.wrap(string,'base64').toArrayBuffer();
 }
 
 function arrayBufferToBase64(arrayBuffer) {
@@ -118,25 +118,14 @@ function stringToBase64(str) {
 }
 
 function stringToArrayBuffer(str) {
-    if (typeof str !== 'string') {
+    if(typeof str !== 'string') {
         throw new Error('Passed non-string to stringToArrayBuffer');
     }
     const res = new ArrayBuffer(str.length);
     const uint = new Uint8Array(res);
-    for (let i = 0; i < str.length; i += 1) {
+    for(let i = 0; i < str.length; i += 1) {
         uint[i] = str.charCodeAt(i);
     }
     return res;
 }
 
-function stringToArrayBuffer(str) {
-    if (typeof str !== 'string') {
-        throw new Error('Passed non-string to stringToArrayBuffer');
-    }
-    const res = new ArrayBuffer(str.length);
-    const uint = new Uint8Array(res);
-    for (let i = 0; i < str.length; i += 1) {
-        uint[i] = str.charCodeAt(i);
-    }
-    return res;
-}
